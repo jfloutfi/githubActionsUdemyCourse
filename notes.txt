@@ -1,0 +1,28 @@
+workflow automation service by github
+CI/CD
+
+continous integration -> integrating new changes to existing code base
+continous delivery/deployment
+
+new syntax:
+git branch -> allows you to create branches instead of checkout -b
+git swicth to swicth branches
+git switch -c -> create and switch
+
+git remote add origin url
+origin is a name, this can be written as: git remote add someOnlineRepo url
+the term origin is just a name (alias) for a remote repository URL.
+
+git remote set-url https://mrj997@github.com/mrj997/someRepo.git
+setting the remote URL like this tells github that when interacting with this repo, assume user mrj997
+then: git push origin main -> will ask us for a password. This can then be created in settings -> Developer settings -> Personal access toke
+make sure to check "repo"
+generate the token and copy it
+once use locally as a password, the system will store it for future use
+use --set-upstream to connect the local branch with its remote conterpart branch
+
+git remote and git remote get-url origin will show us the alias and the url or the remote repo
+
+Pull requests can be created accross forks
+onc eyou fork a repo and you push some changes to another branch,
+you can then, from the page of the orignal repo, created a pull request from the branch on your fork to the original repo
