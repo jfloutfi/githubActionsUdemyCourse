@@ -14,13 +14,14 @@ jobs:
         # using cd Starting-Project-02 because the project root is inside the study repo
         run: |
           cd Starting-Project-02
-          npm install
+          npm ci
       - name: Run tests
         run: |
           cd Starting-Project-02
           npm test
   Deploy:
     runs-on: ubuntu-latest
+    needs: Test
     steps:
       - name: Get code from repo
         uses: actions/checkout@v3

@@ -81,3 +81,6 @@ runs-on: ubuntu-latest
         working-directory: my-folder
 
 by default, jobs run in parallel
+in order to run them sequentially, we need to specify that the 2nd step needs the 1st
+the keyword used here is "needs", the value is the 1st job's name
+the value can also be an arryay of job names, to make the step wait for multiple jobs to finish 
