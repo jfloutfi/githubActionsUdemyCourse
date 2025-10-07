@@ -54,3 +54,16 @@ jobs:
             - name: Print greeting
               run: command to run
 
+Since we are using a github server, we need to get the code from the repo before running things
+The github server does not have access to our code automatically
+in this case, we need a step with an action
+run: => shell commands
+uses: (for actions) a custom application that performs a frequent complex repeated task
+there are official actions but the github team and one contributed by the comunity
+There is an actions marketplace, all actions there are actually free 
+Use the "checkout" action to fetch your code
+actions/checkout@v5 => version is optional, but it is better to lock it in in case of future breaking changes
+the "with" keyword, belongs to the "use" keyword, and can be used to set config options to the action
+
+When it comes the runners, check the github documentation, most runners have preinstalled software
+like ubunut-latest already has nodejs installed
