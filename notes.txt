@@ -13,8 +13,8 @@ git remote add origin url
 origin is a name, this can be written as: git remote add someOnlineRepo url
 the term origin is just a name (alias) for a remote repository URL.
 
-git remote set-url https://mrj997@github.com/mrj997/someRepo.git
-setting the remote URL like this tells github that when interacting with this repo, assume user mrj997
+git remote set-url https://jfloutfi@github.com/jfloutfi/someRepo.git
+setting the remote URL like this tells github that when interacting with this repo, assume user jfloutfi
 then: git push origin main -> will ask us for a password. This can then be created in settings -> Developer settings -> Personal access toke
 make sure to check "repo"
 generate the token and copy it
@@ -24,5 +24,33 @@ use --set-upstream to connect the local branch with its remote conterpart branch
 git remote and git remote get-url origin will show us the alias and the url or the remote repo
 
 Pull requests can be created accross forks
-onc eyou fork a repo and you push some changes to another branch,
+once you fork a repo and you push some changes to another branch,
 you can then, from the page of the orignal repo, created a pull request from the branch on your fork to the original repo
+
+GitHub Actions
+--------------
+We can have multiple workflows
+workflows can run un parallel
+
+each workflow can have multiple jobs
+jobs can run in parallel
+jobs can be conditional, for example only run if the previous job succeeds or fails
+
+each job can have multiple steps
+steps are sequential
+steps can be conditional
+
+
+The first line must be: "name"
+name: my workflow
+
+on: key reserved to define the event to when to trigger this workflow, workflow_dispatch value make sure we can manually trigger this workflow
+
+jobs: below you define the jobs, yml works with indentations
+jobs:
+    fist-job: // this is the job name, it is not a reseved keyword
+        runs-on: ubuntu-latest => search for these online, you will find the list of available runners in github documentation https://github.com/actions/runner-images
+        steps: // below we define the steps, each starting with a "-"
+            - name: Print greeting
+              run: command to run
+
