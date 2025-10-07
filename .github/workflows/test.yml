@@ -1,7 +1,7 @@
 name: Test project
 on: push
 jobs:
-  first-job:
+  Test:
     runs-on: ubuntu-latest
     steps:
       - name: Get code from repo
@@ -11,6 +11,7 @@ jobs:
         with:
           node-version: 18
       - name: Install dependencies
+        # using cd Starting-Project-02 because the project root is inside the study repo
         run: |
           cd Starting-Project-02
           npm install
@@ -18,3 +19,23 @@ jobs:
         run: |
           cd Starting-Project-02
           npm test
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code from repo
+        uses: actions/checkout@v3
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        # using cd Starting-Project-02 because the project root is inside the study repo
+        run: |
+          cd Starting-Project-02
+          npm install
+      - name: Build Project
+        run: |
+          cd Starting-Project-02
+          npm run build
+      - name: Deploy
+        run: echo "Deploying..."

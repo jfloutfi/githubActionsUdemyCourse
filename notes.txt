@@ -70,3 +70,14 @@ like ubunut-latest already has nodejs installed
 
 in case you get a permission error, you will need to generate a new token from settings -> developer settings
 that allows updating workflows
+
+working dir can be set per step:
+working-directory: my-folder (in case we want to cd into a certain dir)
+
+or as a default for all steps
+runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: my-folder
+
+by default, jobs run in parallel
