@@ -33,7 +33,7 @@ jobs:
         # using cd Starting-Project-02 because the project root is inside the study repo
         run: |
           cd Starting-Project-02
-          npm install
+          npm ci
       - name: Build Project
         run: |
           cd Starting-Project-02
