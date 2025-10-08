@@ -1,0 +1,13 @@
+name: Issues
+on:
+  issues:
+    types:
+      - opened # triggers when a new issue is created
+
+jobs:
+  handle-new-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print issue details
+        run: |
+          echo "New issue created: ${{ github.event.issue }}"
