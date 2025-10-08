@@ -9,5 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print issue details
-        run: |
-          echo "New issue created: ${{ toJSON(github.event.issue) }}"
+        run: printf 'New issue created ${{ toJSON(github.event.issue) }}'
