@@ -1,5 +1,10 @@
 name: Events Demo 1
 on: ...
+
+defaults:
+  run:
+    working-directory: 01-Starting-Project
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
