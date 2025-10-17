@@ -4,7 +4,7 @@ CI/CD
 continous integration -> integrating new changes to existing code base
 continous delivery/deployment
 
-new syntax:
+new syntax: 
 git branch -> allows you to create branches instead of checkout -b
 git swicth to swicth branches
 git switch -c -> create and switch
