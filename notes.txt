@@ -99,3 +99,16 @@ context names are reserved keywords
 
 toJSON => function provided by github to transform the object into printable data
 
+Control workflow with filters
+-----------------------------
+example, no on every push I want to trigger a workflow
+
+each event (push, workflow_dispatch... etc) has activity types
+these can be used as filters, for example:
+
+instead of "on: push", you use yml indented structure style like steps, for example:
+on:
+  pull_request:
+    types:
+      - opened
+  workflow_dispatch: we have to add the rest of the events like this even if we are not adding any filters to them
