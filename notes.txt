@@ -112,3 +112,10 @@ on:
     types:
       - opened
   workflow_dispatch: we have to add the rest of the events like this even if we are not adding any filters to them
+
+
+when using defauts like the below, sometimes it is better to checkout the code in the 1st step
+
+defaults:
+  run:
+    working-directory: 01-Starting-Project

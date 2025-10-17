@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: 01-Starting-Project
+    working-directory: starting-project-01
 
 jobs:
   deploy:
