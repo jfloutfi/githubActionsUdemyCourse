@@ -5,6 +5,11 @@ on:
     types:
       - opened
   workflow_dispatch:
+  push:
+    branches:
+      - main
+      - "dev-*" # => this is a regex for branches that start with 'dev-'
+      - "feat/**" # => the double '**' allows for further slashes
 
 defaults:
   run:

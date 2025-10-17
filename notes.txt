@@ -99,12 +99,12 @@ context names are reserved keywords
 
 toJSON => function provided by github to transform the object into printable data
 
-Control workflow with filters
------------------------------
+Control workflow with types and filters
+---------------------------------------
 example, no on every push I want to trigger a workflow
 
 each event (push, workflow_dispatch... etc) has activity types
-these can be used as filters, for example:
+for example:
 
 instead of "on: push", you use yml indented structure style like steps, for example:
 on:
@@ -119,3 +119,40 @@ when using defauts like the below, sometimes it is better to checkout the code i
 defaults:
   run:
     working-directory: 01-Starting-Project
+
+
+as for filters, an example when pushing tousing branches:
+on:
+  push:
+    branches:
+      - main
+      - 'dev-*' => this is a regex for branches that start with 'dev-'
+      - 'feat/**' => the double '**' allows for further slashes
+
+we can also have negative filters: branches-ignore for example (check docs for this)
+another important filter is the "path" filter, it allows triggering workflows based on which files changes
+
+when it comes to pull requests, it has something special
+this is related to opening pull request from forked repos:
+for example, people can fork a repo, work on the code themselves,
+then open a PR to the original repo from that forked repo instead
+of working on a branch for example
+creating a PR from a forked repo that is targetting the original repo
+qualifies for triggering the workflow
+however, the item in "actions", shows up with the exclamation mark
+that is because in this case, it requires approval to run
+this is usefull to protect the original repo's workflow quota (and money) and spam them with workflow runs
+Only the 1st PR in this case will require approval
+PS: if the person was already added as a collaborator from the repo settings
+then their workflow will run even if comming from a fork since you have added them yourself
+
+workflow runs can be canceled or skipped:
+-----------------------------------------
+on failure, if a job/step fail, it stops the workflow
+this can be customized, my making jobs dependend on independant from each other... etc
+workflows can also be canceled manually
+
+github actions provide built in ways to skip workflows
+this can be done by finishing commit message with certain substrings
+for example "blabla blablba [skip ci]", there are strings you can use, check them in the documentation
+
