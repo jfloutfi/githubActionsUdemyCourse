@@ -156,3 +156,11 @@ github actions provide built in ways to skip workflows
 this can be done by finishing commit message with certain substrings
 for example "blabla blablba [skip ci]", there are strings you can use, check them in the documentation
 
+THESE ARE SPECIFIC TO PULL AND PUSH EVENTS
+
+Workflows that would otherwise be triggered using on: push or on: pull_request won't be triggered if you add any of the following strings to the commit message in a push, or the HEAD commit of a pull request:
+[skip ci]
+[ci skip]
+[no ci]
+[skip actions]
+[actions skip]
