@@ -5,12 +5,13 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: starting-project-01-02
+
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./starting-project-01-02
     steps:
       - name: Get code
         uses: actions/checkout@v4
@@ -23,9 +24,6 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./starting-project-01-02
     steps:
       - name: Get code
         uses: actions/checkout@v4
@@ -40,14 +38,15 @@ jobs:
           # the output of "run build" in stored in the ./dist folder
           # based the build command create by the user
           path: |
-            dist
-            package.json
+            ./starting-project-01-02/dist
+            ./starting-project-01-02/package.json
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./starting-project-01-02
     steps:
+      # when the base dir is not the working dir, you will need to checkout in every job
+      # each job is a new canavs
+      - name: Get code
+        uses: actions/checkout@v4
       - name: Deploy
         run: echo "Deploying..."
