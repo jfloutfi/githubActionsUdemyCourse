@@ -44,9 +44,5 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      # when setting different default dirs, you will alwasy need to checkout the code per job
-      # every job is a clean canvas
-      - name: Get code
-        uses: actions/checkout@v4
       - name: Deploy
         run: echo "Deploying..."
