@@ -197,9 +197,15 @@ so you will have to include the workdir in the path:
 - name: upload artificat
   uses: actions/upload-artifact@v4
   with:
-    name: dist-files
+    name: dist-files => it will be uploaded as .zip file
     # the output of "run build" in stored in the ./dist folder
     # based the build command create by the user
     path: |
       ./starting-project-01-02/dist
       ./starting-project-01-02/package.json
+
+As for downloading the built artificate:
+- name: get build artifacts
+  uses: actions/download-artifact@v4
+  with:
+    name: dist-files => sepcify the name of the artificat
