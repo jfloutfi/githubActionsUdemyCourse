@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: starting-project-01
+    working-directory: starting-project-01-02
 
 jobs:
   test:
