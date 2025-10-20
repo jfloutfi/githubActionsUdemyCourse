@@ -5,13 +5,12 @@ on:
     branches:
       - main
 
-defaults:
-  run:
-    working-directory: starting-project-01-02
-
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./starting-project-01-02
     steps:
       - name: Get code
         uses: actions/checkout@v4
@@ -24,6 +23,9 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./starting-project-01-02
     steps:
       - name: Get code
         uses: actions/checkout@v4
@@ -43,6 +45,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./starting-project-01-02
     steps:
       - name: Deploy
         run: echo "Deploying..."
