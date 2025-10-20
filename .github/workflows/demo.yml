@@ -32,7 +32,7 @@ jobs:
       - name: Build website
         run: npm run build
       - name: upload artificat
-        uses: actions/upload-artificat@v3
+        uses: actions/upload-artifact@v3
         with:
           name: dist-files
           # the output of "run build" in stored in the ./dist folder
