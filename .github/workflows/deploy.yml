@@ -37,7 +37,7 @@ jobs:
       - name: test vars and secrets
         run: |
           echo "${{ secrets.MY_ENV_SEC }}"
-          echo "${{ env.MY_ENV_VAR }}"
+          echo "${{ vars.MY_ENV_VAR }}"
   test-4:
     environment: prod
     runs-on: ubuntu-latest
@@ -45,7 +45,7 @@ jobs:
       - name: test vars and secrets
         run: |
           echo "${{ secrets.MY_ENV_SEC }}"
-          echo "${{ env.MY_ENV_VAR }}"
+          echo "${{ vars.MY_ENV_VAR }}"
 
   #       uses: actions/checkout@v3
   #     - name: Cache dependencies
