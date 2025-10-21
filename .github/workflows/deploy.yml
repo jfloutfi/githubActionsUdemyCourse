@@ -30,6 +30,22 @@ jobs:
         run: |
           echo $A_NAME
           echo $TEST_A_NAME
+  test-3:
+    environment: testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: test vars and secrets
+        run: |
+          echo "${{ secrets.MY_ENV_SEC }}"
+          echo "${{ env.MY_ENV_VAR }}"
+  test-4:
+    environment: prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: test vars and secrets
+        run: |
+          echo "${{ secrets.MY_ENV_SEC }}"
+          echo "${{ env.MY_ENV_VAR }}"
 
   #       uses: actions/checkout@v3
   #     - name: Cache dependencies
