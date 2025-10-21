@@ -286,3 +286,36 @@ ${{ secrets.VAR_NAME }}
 
 even if you try to print such a value, or read it, store it in an env variable then try to print it
 github will recognize this and hide it
+
+Environments
+------------
+these envs are configure from the repo settings and referenced in workflows as such:
+per step, you define the "environment" you are using
+and you use "secrets" and "vars" to access these secrets and env variables
+
+test-3:
+  environment: testing
+  runs-on: ubuntu-latest
+  steps:
+    - name: test vars and secrets
+      run: |
+        echo "${{ secrets.MY_ENV_SEC }}"
+        echo "${{ vars.MY_ENV_VAR }}"
+test-4:
+  environment: prod
+  runs-on: ubuntu-latest
+  steps:
+    - name: test vars and secrets
+      run: |
+        echo "${{ secrets.MY_ENV_SEC }}"
+        echo "${{ vars.MY_ENV_VAR }}"
+
+Here we can also add some protections (settings on github):
+for example, we can sepcify that a workflow requires a reviewrs approval to get executed
+these rules can also be limited to certain branches for example, this is different from the "branches" key set in the workflow files, this concerns these protection rules
+
+Conditional Execution
+---------------------
+can be added at job or step level
+we can also continue even if there is an error
+expressions can be used to add custom conditions
