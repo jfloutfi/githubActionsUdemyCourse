@@ -253,4 +253,6 @@ and if there are changes, the cached data will get updated
 
 Github provides very good offcial examples for many languages
 
-NOTE: the cache uses 1 central cache across jobs and workflows
+NOTE: the cache uses 1 central cache across jobs and Workflows
+
+in order to use the cache in a another step, you include the same step with the cache action, path and key
