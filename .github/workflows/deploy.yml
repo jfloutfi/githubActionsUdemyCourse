@@ -4,30 +4,51 @@ on:
     branches:
       - main
       - dev
+
+env:
+  A_NAME: gha-demo
+  MY_SECRET: ${{ secrets.MY_REAL_SECRET }}
+
 jobs:
   test:
-    environment: testing
+    env:
+      TEST_A_NAME: test-gha-demo
     runs-on: ubuntu-latest
     steps:
-      - name: Get Code
-        uses: actions/checkout@v3
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: npm-deps-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        run: npm ci
-      - name: Run server
-        run: npm start & npx wait-on http://127.0.0.1:XYZ
-      - name: Run tests
-        run: npm test
-      - name: Output information
-        run: echo "..."
-  deploy:
-    needs: test
+      - name: test vars and secrets
+        run: |
+          echo $A_NAME
+          echo $TEST_A_NAME
+          echo $MY_SECRET
+          echo $MY_REAL_SECRET
+  test-2:
+    env:
+      TEST_A_NAME: test-2-gha-demo
     runs-on: ubuntu-latest
     steps:
-      - name: Output information
-        run: |        
-          echo "..."
+      - name: test vars and secrets
+        run: |
+          echo $A_NAME
+          echo $TEST_A_NAME
+
+  #       uses: actions/checkout@v3
+  #     - name: Cache dependencies
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: ~/.npm
+  #         key: npm-deps-${{ hashFiles('**/package-lock.json') }}
+  #     - name: Install dependencies
+  #       run: npm ci
+  #     - name: Run server
+  #       run: npm start & npx wait-on http://127.0.0.1:XYZ
+  #     - name: Run tests
+  #       run: npm test
+  #     - name: Output information
+  #       run: echo "..."
+  # deploy:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Output information
+  #       run: |
+  #         echo "..."

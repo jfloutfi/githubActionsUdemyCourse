@@ -256,3 +256,33 @@ Github provides very good offcial examples for many languages
 NOTE: the cache uses 1 central cache across jobs and Workflows
 
 in order to use the cache in a another step, you include the same step with the cache action, path and key
+
+Environment Variables
+---------------------
+They can be defind at workflow or job level (scope)
+IMPORTANT: storing passwords ad user names in clear text in workflow file is not IDEAL
+in fact, it is a security risk
+When we want to use an env variable, in the case of a run instruction (bash with linux), we simply use "$VAR_NAME"
+we can also switch the "shell" by adding this keyword to the step
+
+we can also use the "env" context object to access these Variables
+for example, ${{ env.VAR_NAME }}
+
+github provides some default env variables, they can be found here:
+https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-variables#default-environment-variables
+
+Secrets
+-------
+Go to:
+your repo -> settings -> Secrets and variables -> Actions
+you will be able to set your sercrets there. Once the secret is set, is can not be viewed anymore
+Also, repo variables can be added there.
+-> either at repo level, or per environment (these envs can be also create there in order to group and organise secrets and vars)
+
+PS: the secret can be updated (set new value), but can not be seen
+
+in order to use these secrts, with the "secrets" context object
+${{ secrets.VAR_NAME }}
+
+even if you try to print such a value, or read it, store it in an env variable then try to print it
+github will recognize this and hide it
