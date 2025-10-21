@@ -209,3 +209,26 @@ As for downloading the built artificate:
   uses: actions/download-artifact@v4
   with:
     name: dist-files => sepcify the name of the artificat
+
+the artificat will be unzip automatically
+
+output values in Github actions are different from artificats. For example:
+"outputs" is added before teach of the steps are defined as part of "steps" config fields
+
+outputs:
+  script-file: ${{ steps.publish_id.outputs.script-file }} # steps is a special context variable, we can access step related data using it, the best way would be to give that step an "id". Referencing the output here set this to be the output of the overall job. "script-file:" is not a reserved keyword, it is up to us to name it. We can also add multiple output
+steps:
+  - name: Get code
+    uses: actions/checkout@v4
+  - name: Install dependencies
+    run: npm ci
+  - name: Build website
+    run: npm run build
+  - name: publish js file name
+    id: publish_id # the step id
+    run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';' # {} special place holder, will hold the name of the .js files. We stream the output ">>" to the special env variable variable: $GITHUB_OUTPUT
+
+
+run: echo "${{ needs.build.outputs.script-file }}"
+we could have use the jobs context variable for this, but needs contains
+the data of the jobs that have been defined as a dependency for this current job
