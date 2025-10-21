@@ -20,7 +20,7 @@ jobs:
           echo $A_NAME
           echo $TEST_A_NAME
           echo $MY_SECRET
-          echo $MY_REAL_SECRET
+          echo "${{ secrets.MY_REAL_SECRET }}"
   test-2:
     env:
       TEST_A_NAME: test-2-gha-demo
