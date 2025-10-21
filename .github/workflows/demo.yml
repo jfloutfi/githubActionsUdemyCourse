@@ -15,6 +15,14 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v4
+      - name: cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm # npm builds a cache and other such tools build a cache that they use when deps are being re-installed, in this case, we want to reuse this across jobs since jobs use different machines
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }} # used to get the cached data
+          # hashFiles() is a function that produces a unique has based on a file we provide. When the file content changes, the hash changes
+          # for node projects, one of the best files to use is the .lock file, as long as the deps do not change, the file will remain the same
+          # for cache keys, it is better to use dynamic names as this helps when it comes to needing to discard this cache
       - name: Install dependencies
         run: npm ci
       - name: Lint code
