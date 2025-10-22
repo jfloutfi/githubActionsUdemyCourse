@@ -189,6 +189,17 @@ IMPORTANT
 ---------
 when the base dir is not the working dir, you will need to checkout in every job
 each job is a new canavs and without checking out, the repo will not be there
+OR OR OR, the work dir can be reset at job or set level as such
+=> since you set defaults.run.working-directory at the workflow level, every job inherits it. To make one job run from the repo root, just override the default for that job and point it back to . (or ${{ github.workspace }}).
+
+# Override the workflow default just for this job:
+defaults:
+  run:
+    working-directory: .  # or: ${{ github.workspace }}
+
+- name: Run from repo root only here
+    run: make package
+    working-directory: .               # overrides just this step
 
 Also, upload-artifact will look for files and folders in the base directory,
 so you will have to include the workdir in the path:

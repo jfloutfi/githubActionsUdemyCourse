@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
@@ -67,6 +67,10 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # Override the workflow default just for this job:
+    defaults:
+      run:
+        working-directory: . # or: ${{ github.workspace }}
     steps:
       - name: Get build artifacts
         uses: actions/download-artifact@v4
