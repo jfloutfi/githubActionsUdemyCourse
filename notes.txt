@@ -332,3 +332,9 @@ can be added at job or step level
 we can also continue even if there is an error
 expressions can be used to add custom conditions
 
+for example, in a step, we run some tests
+if they all pass, then we might not be interested in
+uploading the test report... but if it fails, that report can be uploaded for further inspection
+
+in github action, if a step fails, then the entire job to which that step belongs to
+is canceled
