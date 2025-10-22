@@ -40,7 +40,7 @@ jobs:
       - name: Upload test report
         uses: actions/upload-artifact@v4
         with:
-          name: ./starting-project-01-04/test-report
+          name: test-report
           path: ./starting-project-01-04/test.json
   build:
     needs: test
@@ -62,7 +62,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ./starting-project-01-04/dist-files
+          name: dist-files
           path: ./starting-project-01-04/dist
   deploy:
     needs: build
