@@ -337,4 +337,4 @@ if they all pass, then we might not be interested in
 uploading the test report... but if it fails, that report can be uploaded for further inspection
 
 in github action, if a step fails, then the entire job to which that step belongs to
-is canceled
+is canceled BUT we might be interested in running the next steps anyway
