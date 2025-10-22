@@ -211,6 +211,7 @@ As for downloading the built artificate:
     name: dist-files => sepcify the name of the artificat
 
 the artificat will be unzip automatically
+the files will be found in the base directory, similarly to upload
 
 output values in Github actions are different from artificats. For example:
 "outputs" is added before teach of the steps are defined as part of "steps" config fields
@@ -319,3 +320,4 @@ Conditional Execution
 can be added at job or step level
 we can also continue even if there is an error
 expressions can be used to add custom conditions
+
