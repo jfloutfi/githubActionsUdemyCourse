@@ -444,8 +444,25 @@ exclude:
 
 Reusable Workflows
 ------------------
+!!! IMPORTANT: not to be confused with "Reusable Actions"
+
 to be able to call a reusable workflow:
 we use a special trigger for the "on" keyword
 on: workflow_call # when called from other workflows
 and we need to use it, we use the "uses"  keyword and reference the workflow from the root dir
 uses: ./.github/workflows/reusable.yml
+
+so the job would be defined as:
+use-reusable-deploy:
+  needs: build
+  uses: ./.github/workflows/reusable.yml
+
+and the reusable workflow would be:
+name: reusable deploy
+on: workflow_call # when called from other workflows
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: output-information
+        run: echo "deploying..."
