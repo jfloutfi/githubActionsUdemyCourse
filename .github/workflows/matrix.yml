@@ -1,12 +1,12 @@
 name: matrix demo
 on: push
 jobs:
-  strategy:
-    matrix:
-      node-version: [12, 14]
-      operating-system: [ubuntu-latest, windown-latest]
-      # other values can be used here, we can name the keys whatever we want
   build:
+    strategy:
+      matrix:
+        node-version: [12, 14]
+        operating-system: [ubuntu-latest, windown-latest]
+        # other values can be used here, we can name the keys whatever we want
     runs-on: ${{ matrix.operating-system }}
     defaults:
       run:

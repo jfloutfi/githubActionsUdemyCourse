@@ -407,8 +407,12 @@ Matrix Strategies:
 the idea of a Matrix is to run the job with different configurations
 for example:
 jobs:
-  strategy:
-    matrix:
-      node-version: [12, 14]
-      operating-system: [ubuntu-latest, windown-latest]
-      # other values can be used here, we can name the keys whatever we want
+  build:
+    strategy:
+      matrix:
+        node-version: [12, 14]
+        operating-system: [ubuntu-latest, windown-latest]
+        # other values can be used here, we can name the keys whatever we want
+
+then, when we want to use it, we use the "matrix" context object, for example:
+runs-on: ${{ matrix.operating-system }}
