@@ -444,3 +444,8 @@ exclude:
 
 Reusable Workflows
 ------------------
+to be able to call a reusable workflow:
+we use a special trigger for the "on" keyword
+on: workflow-call # when called from other workflows
+and we need to use it, we use the "uses"  keyword and reference the workflow from the root dir
+uses: ./.github/workflows/reusable.yml

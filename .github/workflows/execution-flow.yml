@@ -98,3 +98,6 @@ jobs:
         run: |
           echo something when wrong
           echo "${{ toJSON(github) }}"
+  use-reusable-deploy:
+    needs: build
+    uses: ./.github/workflows/reusable.yml
