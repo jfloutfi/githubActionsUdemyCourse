@@ -369,3 +369,15 @@ report:
   run: |
     echo something when wrong
     echo "${{ toJSON(github) }}"
+
+For example, we can store the node-modules folder instead of the .npm one
+this folder already has the dependencies installed vs .npm containing the binaries
+in this case, when Referencing the cache, we want to check if the we have a cache hit,
+else we need to install the modules.
+The "cache" itself has its own outout, this can be found in its documentation: https://github.com/actions/cache
+it has an ouput variable called "cache-hit" that gets set to 'true' or 'false'
+If want to use it with a if statement, we can use it as such:
+if: steps.cache_step_id.outpus.cache-hits == 'true' or != 'true'
+cache_step_id => this you specify use "id" in the step when you handle cache
+i.e if condition can be used for other things and not just fail/success and similar statuses
+
