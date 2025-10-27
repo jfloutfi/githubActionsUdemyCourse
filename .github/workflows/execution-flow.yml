@@ -91,6 +91,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: output information
+        working-directory: .
         run: |
           echo something when wrong
           echo "${{ toJSON(github) }}"
