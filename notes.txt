@@ -381,3 +381,16 @@ if: steps.cache_step_id.outpus.cache-hits == 'true' or != 'true'
 cache_step_id => this you specify use "id" in the step when you handle cache
 i.e if condition can be used for other things and not just fail/success and similar statuses
 
+continue-on-error:
+------------------
+- name: Test code
+  id: run-tests # set the id to whatever you want
+  continue-on-error: true # we can gibe this an expression as well instead of hardcoding "true"
+  run: npm run test
+- name: Upload test report
+  # for "if", we can omit the use of ${{}} as for this key, the value is typically and expression
+  # this as is will still not execute, we need 1 more function
+  # if: steps.run-tests.outcome == 'failure'
+  # if: failure() && steps.run-tests.outcome == 'failure'
+  # here we can use another method: "continue-on-error"
+  # this is set on the step before this so that the execution contines even if the step fails
