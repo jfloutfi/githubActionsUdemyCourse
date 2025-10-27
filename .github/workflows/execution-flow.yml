@@ -100,7 +100,4 @@ jobs:
           echo "${{ toJSON(github) }}"
   use-reusable-deploy:
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: deploy
-        uses: ./.github/workflows/reusable.yml
+    uses: ./.github/workflows/reusable.yml
