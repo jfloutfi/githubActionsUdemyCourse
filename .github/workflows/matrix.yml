@@ -2,11 +2,17 @@ name: matrix demo
 on: push
 jobs:
   build:
+    continue-on-error: true
     strategy:
       matrix:
         node-version: [12, 14]
-        operating-system: [ubuntu-latest, windown-latest]
+        operating-system: [ubuntu-latest, windows-latest]
         # other values can be used here, we can name the keys whatever we want
+        exclude:
+          - node-version: 12
+            operating-system: windows-latest
+          - node-version: 18
+            operating-system: ubuntu-latest
     runs-on: ${{ matrix.operating-system }}
     defaults:
       run:

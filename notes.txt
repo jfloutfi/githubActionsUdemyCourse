@@ -402,6 +402,9 @@ so jobs that depend on it will continue
 
 this is where .conclusion (after continue-on-error is set to true) and .outcome (before continue-on-error is set to true) come into play as mentined before
 
+continue-on-error can also be set on job level, in this case,
+if the job fails, it will be marked as failed (unlike with steps where the job ends being marked as passed, but the step in the logs shows up as failed), but other related jobs will coninue
+
 Matrix Strategies:
 ------------------
 the idea of a Matrix is to run the job with different configurations
@@ -410,9 +413,31 @@ jobs:
   build:
     strategy:
       matrix:
-        node-version: [12, 14]
-        operating-system: [ubuntu-latest, windown-latest]
+        node-version: [12, 14, 16]
+        operating-system: [ubuntu-latest, windows-latest]
         # other values can be used here, we can name the keys whatever we want
+        # though there are some reserved keys
 
 then, when we want to use it, we use the "matrix" context object, for example:
 runs-on: ${{ matrix.operating-system }}
+
+in the actions tab on github, we would see: runing 0/4 jobs for example
+when using a matrix, if one of the jobs fail, the others are canceled
+in this case, we use "continue-on-error" on "job" level and set it to true
+
+for matrix, we can use the "include" key, this one is one fo the reserved keys
+this allows is to create specific combinations, for example
+include:
+  - node-version: 18
+    operating-system: ubuntu-latest
+    # we can also add news keys that were not mentioned above
+  - node-version: 20
+    operating-system: windows-latest
+
+as such, version 18 will only be ran on ubuntu-latest only
+and version 20 will only be ran on windows-latest only
+
+we can also use the "exclude" reserved keyword
+exclude:
+  - node-version: 12
+    operating-system: windows-latest
