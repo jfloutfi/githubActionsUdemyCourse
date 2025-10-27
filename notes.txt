@@ -338,3 +338,14 @@ uploading the test report... but if it fails, that report can be uploaded for fu
 
 in github action, if a step fails, then the entire job to which that step belongs to
 is canceled BUT we might be interested in running the next steps anyway
+
+also, if a job fails, the jobs that depend on it will be canceled as well
+
+# for "if", we can omit the use of ${{}} as for this key, the value is typically and expression
+if: steps.run-tests.outcome
+.outcome: before continue-on-error is applied
+vs
+.conclusion: after continue-on-error is applied
+
+the results of the 2 above are strings that would need to be compared using '==' for example
+

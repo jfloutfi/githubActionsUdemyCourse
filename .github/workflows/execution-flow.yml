@@ -36,8 +36,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Test code
+        id: run-tests # set the id to whatever you want
         run: npm run test
       - name: Upload test report
+        # for "if", we can omit the use of ${{}} as for this key, the value is typically and expression
+        if: steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: test-report
