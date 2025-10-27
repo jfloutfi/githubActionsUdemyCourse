@@ -349,3 +349,13 @@ vs
 
 the results of the 2 above are strings that would need to be compared using '==' for example
 
+# for "if", we can omit the use of ${{}} as for this key, the value is typically and expression
+# this as is will still not execute, we need 1 more function
+# if: steps.run-tests.outcome == 'failure'
+if: failure() && steps.run-tests.outcome == 'failure'
+
+we have 4 of these functions:
+- failure() => returns true if any of the previous steps fails
+- success() => returns true if none of the previous steps fails
+- always() => returns true always even when canceled
+- canceled() => returns true if a "workflow" has has been canceled

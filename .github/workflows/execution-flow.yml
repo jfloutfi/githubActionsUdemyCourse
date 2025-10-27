@@ -40,7 +40,9 @@ jobs:
         run: npm run test
       - name: Upload test report
         # for "if", we can omit the use of ${{}} as for this key, the value is typically and expression
-        if: steps.run-tests.outcome == 'failure'
+        # this as is will still not execute, we need 1 more function
+        # if: steps.run-tests.outcome == 'failure'
+        if: failure() && steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: test-report
