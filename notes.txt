@@ -359,7 +359,8 @@ we have 4 of these functions:
 - always() => returns true always even when canceled
 - canceled() => returns true if a "workflow" has has been canceled
 
-"if" and these 4 functions can be used a JOB level
+"if" and these 4 functions can also be used a JOB level
+so even if a job fails, we can have the pipeline continue
 For example, adding the bellow as a final job
 as is, it will run in parallel at the start and it will not behave as we expect it to
 we need the "needs" keyword
@@ -394,3 +395,20 @@ continue-on-error:
   # if: failure() && steps.run-tests.outcome == 'failure'
   # here we can use another method: "continue-on-error"
   # this is set on the step before this so that the execution contines even if the step fails
+
+BUT BUT BUT there is a big difference:
+if "continue-on-error: true" is set, even if the step fails, the job at the end will be marked as "succeeded"
+so jobs that depend on it will continue
+
+this is where .conclusion (after continue-on-error is set to true) and .outcome (before continue-on-error is set to true) come into play as mentined before
+
+Matrix Strategies:
+------------------
+the idea of a Matrix is to run the job with different configurations
+for example:
+jobs:
+  strategy:
+    matrix:
+      node-version: [12, 14]
+      operating-system: [ubuntu-latest, windown-latest]
+      # other values can be used here, we can name the keys whatever we want

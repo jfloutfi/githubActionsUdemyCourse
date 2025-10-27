@@ -1,0 +1,24 @@
+name: matrix demo
+on: push
+jobs:
+  strategy:
+    matrix:
+      node-version: [12, 14]
+      operating-system: [ubuntu-latest, windown-latest]
+      # other values can be used here, we can name the keys whatever we want
+  build:
+    runs-on: ${{ matrix.operating-system }}
+    defaults:
+      run:
+        working-directory: starting-project-01-04
+    steps:
+      - name: get code
+        uses: actions/checkout@v4
+      - name: install nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: install deps
+        run: npm ci
+      - name: build
+        run: npm run build
