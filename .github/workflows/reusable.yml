@@ -4,5 +4,5 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - output-information:
+      - name: output-information
         run: echo "deploying..."
