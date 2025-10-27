@@ -359,3 +359,6 @@ we have 4 of these functions:
 - success() => returns true if none of the previous steps fails
 - always() => returns true always even when canceled
 - canceled() => returns true if a "workflow" has has been canceled
+
+"if" and these 4 functions can be used a JOB level
+
