@@ -87,6 +87,7 @@ jobs:
         run: echo "Deploying..."
   report:
     runs-on: ubuntu-latest
+    needs: [lint, deploy]
     if: failure()
     run: |
       echo something when wrong

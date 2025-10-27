@@ -361,4 +361,12 @@ we have 4 of these functions:
 - canceled() => returns true if a "workflow" has has been canceled
 
 "if" and these 4 functions can be used a JOB level
-
+For example, adding the bellow as a final job
+as is, it will run in parallel at the start and it will not behave as we expect it to
+we need the "needs" keyword
+report:
+  runs-on: ubuntu-latest
+  if: failure()
+  run: |
+    echo something when wrong
+    echo "${{ toJSON(github) }}"
