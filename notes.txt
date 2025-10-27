@@ -74,11 +74,13 @@ that allows updating workflows
 working dir can be set per step:
 working-directory: my-folder (in case we want to cd into a certain dir)
 
-or as a default for all steps
+or as a default for all steps at job level
 runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: my-folder
+  defaults:
+    run:
+      working-directory: my-folder
+
+the default can be specified at workflow level and applies to all jobs
 
 by default, jobs run in parallel
 in order to run them sequentially, we need to specify that the 2nd step needs the 1st
@@ -112,9 +114,6 @@ on:
     types:
       - opened
   workflow_dispatch: we have to add the rest of the events like this even if we are not adding any filters to them
-
-
-when using defauts like the below, sometimes it is better to checkout the code in the 1st step
 
 defaults:
   run:
