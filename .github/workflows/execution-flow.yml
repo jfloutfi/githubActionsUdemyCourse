@@ -103,3 +103,9 @@ jobs:
     uses: ./.github/workflows/reusable.yml
     with:
       artifact-name: dist-files
+  print-deploy-result:
+    needs: se-reusable-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: print reusable workflow output
+        run: echo ${{ needs.use-reusable-deploy.outputs.result }}

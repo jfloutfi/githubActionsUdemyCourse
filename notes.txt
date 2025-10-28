@@ -492,3 +492,58 @@ jobs:
           name: ${{ inputs.artifact-name }}
       - name: output-information
         run: echo "deploying..."
+
+we can also pass secrets using the workflow alongside inputs using the key "secrets"
+these can be referenced using the "secrets" context variable
+
+Finally, the reusable workflow can produce outputs and pass it back to the calling workflow
+we can think of them as the return values of functions.
+So, we need to create a chain of outputs
+output from the step to the job
+output from the job to the workflow
+output from the workflow to the calling workflow
+
+on:
+  workflow_call: # when called from other workflows
+    inputs:
+      artifact-name: # key names for inputs are up to us to choose
+        descritpion: the name of the artifact we want to download
+        required: true # or false => false, mean the workflow will run even if no input is provided, else it will fail
+        default: dist # default value in case the user provided none, this works well with "required: false" as the workflow has a name to look up if the user did not provide any
+        type: string
+    outputs:
+      result:
+        description: the resulting value of the workflow
+        # workflow output set to the value of the job output
+        value: ${{ jobs.deploy.outputs.outcome }}
+
+jobs:
+  deploy:
+    outputs:
+      # job output set to the value of the step output
+      outcome: ${{ steps.set-result.outputs.step-result }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: get code
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+      - name: list files
+        run: ls
+      - name: output-information
+        run: echo "deploying..."
+      - name: set result output
+        # set output
+        run: echo "step-result=success" >> $GITHUB_OUTPUT
+
+and in the calling workflow:
+
+print-deploy-result:
+  needs: use-reusable-deploy
+  runs-on: ubuntu-latest
+  steps:
+    - name: print reusable workflow output
+      run: echo ${{ needs.use-reusable-deploy.outputs.result }}
+
+we use the "needs" context variable in this case to reference the previous job
+since it is needed by this one

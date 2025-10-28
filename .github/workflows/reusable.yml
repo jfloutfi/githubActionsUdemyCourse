@@ -7,9 +7,15 @@ on:
         required: false # or true => true, means the workflow will fail if no input is provided
         default: dist # default value in case the user provided none, this works well with "required: false" as the workflow has a name to look up if the user did not provide any
         type: string
+    outputs:
+      result:
+        description: the resulting value of the workflow
+        value: ${{ jobs.deploy.outputs.outcome }}
 
 jobs:
   deploy:
+    outputs:
+      outcome: ${{ steps.set-result.outputs.step-result }}
     runs-on: ubuntu-latest
     steps:
       - name: get code
@@ -20,3 +26,5 @@ jobs:
         run: ls
       - name: output-information
         run: echo "deploying..."
+      - name: set result output
+        run: echo "step-result=success" >> $GITHUB_OUTPUT
