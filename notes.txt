@@ -591,4 +591,15 @@ on the condition that the job is also running in a container
 in case the job in running on the main machine, then we use the localhost IP address with a port
 it is the exposed port of the service container that maps to the port of the service running inside it
 
+Custom Actions
+--------------
+Different types of actions
+- javascript actions
+  execute js sctipts, use any lib you want
+- docker actions
+  a containerized action, basically an app that you put in a container and make it run (could be any kind of script in any language you prefer)
+- composite actions
+  you combine multiple workflow steps in a single action, greate for combining multiple steps that get reused in the same or multiple projects
+  
+
 
