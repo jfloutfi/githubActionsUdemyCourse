@@ -3,7 +3,7 @@ on:
   workflow_call: # when called from other workflows
     inputs:
       artifact-name: # key names for inputs are up to us to choose
-        descritpion: the name of the artifact we want to download
+        description: the name of the artifact we want to download
         required: false # or true => true, means the workflow will fail if no input is provided
         default: dist # default value in case the user provided none, this works well with "required: false" as the workflow has a name to look up if the user did not provide any
         type: string
