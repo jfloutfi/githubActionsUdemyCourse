@@ -101,3 +101,5 @@ jobs:
   use-reusable-deploy:
     needs: build
     uses: ./.github/workflows/reusable.yml
+    with:
+      artifact-name: dist-files

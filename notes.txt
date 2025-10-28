@@ -466,3 +466,29 @@ jobs:
     steps:
       - name: output-information
         run: echo "deploying..."
+
+reusable workflows can be though of as functions
+for best practice, it is best not to harcode certain names, like for example, when downloading
+an artifact by name
+here, we can think of these as function args, example below
+here, the "inputs" context variable is available for use
+
+name: reusable deploy
+on:
+  workflow_call: # when called from other workflows
+    inputs:
+      artifact-name: # key names for inputs are up to us to choose
+        descritpion: the name of the artifact we want to download
+        required: true # or false => false, mean the workflow will run even if no input is provided, else it will fail
+        default: dist # default value in case the user provided none, this works well with "required: false" as the workflow has a name to look up if the user did not provide any
+        type: string
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get code
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+      - name: output-information
+        run: echo "deploying..."
