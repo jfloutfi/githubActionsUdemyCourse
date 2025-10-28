@@ -76,9 +76,9 @@ working-directory: my-folder (in case we want to cd into a certain dir)
 
 or as a default for all steps at job level
 runs-on: ubuntu-latest
-  defaults:
-    run:
-      working-directory: my-folder
+defaults:
+  run:
+    working-directory: my-folder
 
 the default can be specified at workflow level and applies to all jobs
 
@@ -547,3 +547,48 @@ print-deploy-result:
 
 we use the "needs" context variable in this case to reference the previous job
 since it is needed by this one
+
+Github Action and Containers
+----------------------------
+add steps to container is simple
+at job level, we use the key: "container"
+the value is the image we want to use
+but for this, we have to use images that are pubically avaiable, like the ones on dockerhub
+we can publish our own, but they have to be public so that github action can fetch them
+we can also add nested key in case we want to set more configurations:
+
+container:
+  image: node:16
+  env: ... etc
+
+in this case, the machine specified in "runs-on" will host the image
+
+the steps running in the image will not have direct access to the machine nor the tools available on it
+but, from this point on, the rest of the steps will run inside the container
+in the logs output on github, you will see the Initialize Container steps
+and in theory, anything you can do via github action on the main machine can be done in a container (accessing secrests, using actions... etc)
+
+this helps a lot when we need full control of the env when we are running our job
+
+We can also use container in conjunction to github action to spin up service Containers
+For example, when running tests, our code might need to interact with a database that is not the production database
+so we can use service container to host a test database
+
+for this, we use the "services" key,
+this is set at job level and we can have multiple services per job, for example:
+services:
+  mongodb: # the label or name can be anything we want
+    image: mongo #services always run in containers, so we always need container
+    ports:
+      - 123:456 # map external container port to internal one to reach the service
+    env: # this might depend on the image can be found in the image documentation
+      SOME_VAR_1: bla
+      SOME_VAR_2: blo
+
+github actions creates a network and we can use the service name or lable to connect to it
+on the condition that the job is also running in a container
+
+in case the job in running on the main machine, then we use the localhost IP address with a port
+it is the exposed port of the service container that maps to the port of the service running inside it
+
+
