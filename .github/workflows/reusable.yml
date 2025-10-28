@@ -27,4 +27,5 @@ jobs:
       - name: output-information
         run: echo "deploying..."
       - name: set result output
+        id: set-result
         run: echo "step-result=success" >> $GITHUB_OUTPUT
