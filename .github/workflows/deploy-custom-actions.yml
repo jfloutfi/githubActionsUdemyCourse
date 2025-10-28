@@ -78,7 +78,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist-files
-          path: ./dist
+          path: ./starting-project-01-06/dist
       - name: Output contents
         run: ls
       - name: Deploy site
