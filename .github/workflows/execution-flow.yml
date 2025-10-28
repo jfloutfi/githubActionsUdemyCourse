@@ -108,4 +108,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: print reusable workflow output
+        working-directory: .
         run: echo ${{ needs.use-reusable-deploy.outputs.result }}
