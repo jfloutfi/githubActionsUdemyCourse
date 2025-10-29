@@ -592,7 +592,7 @@ in case the job in running on the main machine, then we use the localhost IP add
 it is the exposed port of the service container that maps to the port of the service running inside it
 
 Custom Actions
---------------
+==============
 Different types of actions
 - javascript actions
   execute js sctipts, use any lib you want
@@ -607,6 +607,37 @@ IMPORTANT: when we are defining a action as part of the repo itself, we can not 
 checking out the code in it, as we need to checkout the project's code 1st which includes the action
 to be able to use it
 
+composite action
+----------------
 When creating a custom composite action, if we have a "run" with commands in it, we must also specify the shell to be used, for example:
 run: npm ci
 shell: bash
+
+a full example:
+name: get & cache dependencies
+description: get deps and cache them
+runs:
+  using: "composite" # tells githib action that this is a composite action
+  steps:
+    - name: Cache dependencies
+      id: cache
+      uses: actions/cache@v4
+      with:
+        path: ./starting-project-01-06/node_modules # in a normal project, node_modules dir would be at root dir
+        key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+    - name: Install dependencies
+      working-directory: starting-project-01-06 # done for this leanring repo only
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+      shell: bash
+
+inputs and outputs
+------------------
+we use the "inputs" key
+inputs:
+  caching: key up to the user to sepcify
+    description: reserved key, must be added and takes a string value
+
+accessing it later one:
+inputs.caching == 'true' for example
+we pass these inputs using the "with" keyword in the calling workflow

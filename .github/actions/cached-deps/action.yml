@@ -1,16 +1,22 @@
 name: get & cache dependencies
 description: get deps and cache them
+inputs:
+  caching:
+    description: whether to cache deps or not
+    required: false # or true
+    default: "true"
 runs:
   using: "composite" # tells githib action that this is a composite action
   steps:
     - name: Cache dependencies
       id: cache
+      if: inputs.caching == 'true'
       uses: actions/cache@v4
       with:
         path: ./starting-project-01-06/node_modules # in a normal project, node_modules dir would be at root dir
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
       working-directory: starting-project-01-06 # done for this leanring repo only
-      if: steps.cache.outputs.cache-hit != 'true'
+      if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != true
       run: npm ci
       shell: bash
