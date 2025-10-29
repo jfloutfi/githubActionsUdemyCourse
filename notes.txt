@@ -641,3 +641,14 @@ inputs:
 accessing it later one:
 inputs.caching == 'true' for example
 we pass these inputs using the "with" keyword in the calling workflow
+
+for outputs:
+outputs:
+  used-cache:
+    description: if cached was used or not
+    value: ${{ steps.install.used-cache }}
+
+note: 
+requires adding an id to the step to be able to reference it
+needs to write an output in the commands in the step
+echo 'used-cache=true' >> $GITHUB_OUTPUT

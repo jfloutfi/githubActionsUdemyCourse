@@ -13,10 +13,13 @@ jobs:
       - name: Get code
         uses: actions/checkout@v4
       - name: Load and Cache dependencies
+        id: cache-step
         uses: ./.github/actions/cached-deps # ./ i.e start at the root folder of the project
         with:
           caching: "false"
         # no need to point to the file itself, github will automatically look for an action.yml file
+      - name: action output
+        run: echo "cache used? ${{ steps.cache-step.outputs.used-cache }}"
       - name: Lint code
         run: npm run lint
   test:
