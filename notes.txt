@@ -600,6 +600,13 @@ Different types of actions
   a containerized action, basically an app that you put in a container and make it run (could be any kind of script in any language you prefer)
 - composite actions
   you combine multiple workflow steps in a single action, greate for combining multiple steps that get reused in the same or multiple projects
-  
 
+In order to share custom actions across repos, create them in a standalone repo, else they will only be available in the repo they are shared.
 
+IMPORTANT: when we are defining a action as part of the repo itself, we can not include
+checking out the code in it, as we need to checkout the project's code 1st which includes the action
+to be able to use it
+
+When creating a custom composite action, if we have a "run" with commands in it, we must also specify the shell to be used, for example:
+run: npm ci
+shell: bash
