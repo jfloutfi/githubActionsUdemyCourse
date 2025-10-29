@@ -7,7 +7,7 @@ runs:
       id: cache
       uses: actions/cache@v4
       with:
-        path: node_modules
+        path: ./starting-project-01-06/node_modules # in a normal project, node_modules dir would be at root dir
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit != 'true'
