@@ -8,7 +8,7 @@ inputs:
 outputs:
   used-cache:
     description: if cached was used or not
-    value: ${{ steps.install.used-cache }}
+    value: ${{ steps.install.outputs.used-cache }}
 runs:
   using: "composite" # tells githib action that this is a composite action
   steps:
