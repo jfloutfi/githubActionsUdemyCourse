@@ -13,6 +13,7 @@ jobs:
       - name: Get code
         uses: actions/checkout@v4
       - name: Load and Cache dependencies
+        working-directory: starting-project-01-06
         uses: ./.github/actions/cached-deps # ./ i.e start at the root folder of the project
         # no need to point to the file itself, github will automatically look for an action.yml file
       - name: Lint code
