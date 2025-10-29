@@ -10,6 +10,7 @@ runs:
         path: ./starting-project-01-06/node_modules # in a normal project, node_modules dir would be at root dir
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
+      working-directory: starting-project-01-06 # done for this leanring repo only
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm ci
       shell: bash
