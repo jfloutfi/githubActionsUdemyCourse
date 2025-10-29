@@ -13,7 +13,7 @@ jobs:
       - name: Get code
         uses: actions/checkout@v4
       - name: Load and Cache dependencies
-        uses: ./.github/actions/cached-deps # usin ../ given the struct of this project, else just use ./ i.e start at the root folder of the project
+        uses: ./.github/actions/cached-deps # ./ i.e start at the root folder of the project
         # no need to point to the file itself, github will automatically look for an action.yml file
       - name: Lint code
         run: npm run lint
