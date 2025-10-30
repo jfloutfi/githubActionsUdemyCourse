@@ -1,0 +1,5 @@
+name: deploy using docker
+description: "deploy static s3 website using docker"
+runs:
+  using: "docker"
+  image: "Dockerfile" # path to docker file or public image

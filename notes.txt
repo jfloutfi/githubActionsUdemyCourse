@@ -697,6 +697,7 @@ inputs:
 we can also set input defaults if we want... etc
 in order to pass these inputs, we use the "with" keyboard like before, thus:
 
+``````````````````````````````````````
 const core = require('@actions/core');
 // can be used to get context vairable data for example
 // also provides a kit "octokit" to call github apis
@@ -722,7 +723,7 @@ function run() {
 }
 
 run();
-
+``````````````````````````````````````
 for AWS, we set up env variables that the aws command looks for.
 at the step level, we can also set env varibles and they will be step specific, for example:
 - AWS_ACCESS_KEY_ID
@@ -738,4 +739,52 @@ outputs:
 here we can not add a "value" like for composite actions, we just register it
 then return it from our code using core.setOutput(...) as seen in the example above
 we can then reach this output value in our workflow using ${{ steps.step_id.outputs.website-url }}
+that is because the details of the step itself are not present in the yaml file but are instead
+writtent in main.js
+
+Docker actions
+--------------
+in the case of docker actions, we simply set up a simple dockerfile
+that installs the requirements (for example python packages to talk to S3 on aws)
+then write a python script in a similar fashion to what was done
+for javascript, then call it from inside the docker container
+(usefull in case we want to use a different language than JS since JS is supported by default)
+
+as for the action.yml file:
+name: deploy using docker
+description: "deploy static s3 website using docker"
+runs:
+  using: "docker"
+  image: "Dockerfile" # path to docker file or public image
+
+here, we can also use inputs and ouputs in the same way as we set them up for the JS action
+inputs:
+  bucket: key up to the user to sepcify
+    description: reserved key, must be added and takes a string value
+    required: true or false
+  bucket-region:
+    description: ... etc
+    required: true or false
+  dist-folder:
+    description: ... the files to upload for example
+    required: true or false
+outputs:
+  website-url:
+    descritpion: ... etc
+
+for inputs, in the case of docker, github actions generates env variables automatically 
+- INPUT_BUCKET
+- INPUT_BUCKET-REGION
+- INPUT_DIST-FOLDER
+-... etc
+The names all follow the same pattern: INPUT_... (CAPITAL LETTERS)
+in order to set the output, we simply print the actions command to set the output:
+similarly to the way we do it using shell
+
+with open(os.environ['GITHUB_OUTPUT'], 'a') as gh_output:
+        print(f'website-url={website_url}', file=gh_output)
+
+in the case of AWS, we still need to set the AWS keys as env variables in the same fashion
+for python and the boto3 lib specifically, this lib will look for the AWS standard env variables
+on its own
 
