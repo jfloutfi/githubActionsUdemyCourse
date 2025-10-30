@@ -662,3 +662,79 @@ and to output it:
   # no need to point to the file itself, github will automatically look for an action.yml file
 - name: action output
   run: echo "cache used? ${{ steps.cache-step.outputs.used-cache }}"
+
+javascript actions
+------------------
+here we use:
+runs:
+  using: 'node16'
+  main: 'main.js' # here sepcify the name or path of the file we specify for the action 
+
+we can also add "pre" and "post" keys that run script before and after main
+in the folder where we are storing main.js,
+we run: npm init -y
+then: npm install @actions/core @actions/github @actions/exec
+these are part of the actions toolkit that is provide by github: https://github.com/actions/toolkit
+check the repo for the many avaiable tools
+
+important not to ignore the nested node_modules
+github action will not download and install these dependencies, it expects to be there
+
+be careful that .gitignore does not ignore files and folder in the nested node_modules
+ 
+we can also pass inputs:
+inputs:
+  bucket: key up to the user to sepcify
+    description: reserved key, must be added and takes a string value
+    required: true or false
+  bucket-region:
+    description: ... etc
+    required: true or false
+  dist-folder:
+    description: ... the files to upload for example
+    required: true or false
+
+we can also set input defaults if we want... etc
+in order to pass these inputs, we use the "with" keyboard like before, thus:
+
+const core = require('@actions/core');
+// can be used to get context vairable data for example
+// also provides a kit "octokit" to call github apis
+const github = require('@actions/github'); // not used in this script files
+const exec = require('@actions/exec');
+
+function run() {
+    // log message to github log
+    core.notice('hello from my js actions')
+
+    // get inputs
+    // required => throws an error in case the input is not found
+    const bucket = core.getInput('bucket', { required: true });
+    const bucketRegion = core.getInput('bucket-region', { required: true });
+    const distFolder = core.getInput('bucket-folder', { required: true });
+
+    const s3Uri = `s3://${bucket}`
+    // this allows us to execute commands
+    exec.exec(`aws s3 sync ${distFolder} ${s3Uri} --region ${bucketRegion}`);
+
+    const websiteUrl = `https://${bucket}.s3-website-${bucketRegion}.amazonaws.com`;
+    core.setOutput(websiteUrl);
+}
+
+run();
+
+for AWS, we set up env variables that the aws command looks for.
+at the step level, we can also set env varibles and they will be step specific, for example:
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+
+we save these as secrets on github and then fetch them using #{{ secrets.MY_VAR_NAME }}
+
+we can also add outputs:
+outputs:
+  website-url:
+    descritpion: ... etc
+
+here we can not add a "value" like for composite actions, we just register it
+then return it from our code using core.setOutput(...) as seen in the example above
+we can then reach this output value in our workflow using ${{ steps.step_id.outputs.website-url }}

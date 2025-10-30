@@ -1,0 +1,73 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+defaults:
+  run:
+    working-directory: starting-project-01-06
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Load and Cache dependencies
+        id: cache-step
+        uses: ./.github/actions/cached-deps # ./ i.e start at the root folder of the project
+        with:
+          caching: "false"
+        # no need to point to the file itself, github will automatically look for an action.yml file
+      - name: action output
+        run: echo "cache used? ${{ steps.cache-step.outputs.used-cache }}"
+      - name: Lint code
+        run: npm run lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Load and Cache dependencies
+        id: cache-step
+        uses: ./.github/actions/cached-deps
+      - name: action output
+        run: echo "cache used? ${{ steps.cache-step.outputs.used-cache }}"
+      - name: Test code
+        id: run-tests
+        run: npm run test
+      - name: Upload test report
+        if: failure() && steps.run-tests.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: test.json
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Load and Cache dependencies
+        uses: ./.github/actions/cached-deps
+      - name: Build website
+        run: npm run build
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-files
+          path: ./starting-project-01-06/dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Get build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files
+          path: ./starting-project-01-06/dist
+      - name: Output contents
+        run: ls
+      - name: Deploy site
+        run: echo "Deploying..."
