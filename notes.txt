@@ -841,7 +841,11 @@ but once a permission for a single thing is added, all other premissions will be
 premissions:
   issues: write => this means that the job can write to issues but nothing else
 
-IMPORTANT: the default (full permission) can be changed
+IMPORTANT: the default permissions can be changed from the repo serttings
+
+permissions: {} => disables all permissions
+
+permission can have 3 values: read, write and none
 
 GITHUB_TOKEN
 ------------
@@ -858,7 +862,7 @@ under the hood, it is calling github API to get the code and is using this token
 IMPORTANT: the permissions key can be used at job level as well as Workflow level
 for configurations such as these, always check the documentation
 
-out of the box, permissions allow doing all
+out of the box, most permissions are open (not all, check documentation to know more about the defaults)
 but that can be changed from the settings repository
 the workflow permiossion can be changed to a more restrictive one "read"
 thus, you would have to set the specific permission you need to write for the job you specifically need it for
@@ -879,3 +883,43 @@ git example, if a secret was sent in a curl, it becomes visible
 for example, the AWS Keys give access to everything on AWS, so having them exposed is very dangerous
 we use openID connect to get these permissions
 providers such as AWS, Azure... etc provide documentation on how to set this up with github actions
+
+for example: https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws
+check the link above when dealing with AWS
+in this case, we are usin the IAM service
+OpenID is a provider, we 1st add them to AWS as in ID provider
+then on aws, we use roles, we assign it to the provider
+we create a role (a document that defines the premissions)
+we then create policies (there are some that are prebuilt by AWS like the S3 policy)
+we can also finegrain the policy to fit our need and design a new one
+we then use an action provided by aws: aws-actions/configure-aws-credentials
+we then add the necessary permissions as per the documentation
+
+IMPORTANT: the id-token permission is always disabled by default no matter what permission levels we set
+also: https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws
+
+so, we set id-token write since the temporary JWT token that will created will need to be saved as part of thr workflow
+
+IMPORTANT, once we setup one permission, we will have to set up the rest
+
+we add the needed inputs (role, region... etc) depends on which service we are setting up OpenID with (refer to the docs of each for that).
+
+Thus, we no longer have to add these access keys on github actions anymore.
+
+NOTE: for services such as AWS that have their own actions, the env variable names used are known.
+these names are mentioned in the official documentations. So even if the aws key variable
+is not used in the workflow itself, if it is setup as a secret in the repo, it can still be fetched
+
+More On GitHub Actions Security
+--------------------------------
+In addition to the concepts covered in this module, you should absolutely also explore the security guides by GitHub itself:
+
+General overview & important concepts: https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+
+More on Secrets: https://docs.github.com/en/actions/security-guides/encrypted-secrets
+
+Using GITHUB_TOKEN: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+
+Advanced - Preventing Fork Pull Requests Attacks: https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+
+Security Hardening with OpenID Connect: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect
