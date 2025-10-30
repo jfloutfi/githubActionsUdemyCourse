@@ -738,3 +738,4 @@ outputs:
 here we can not add a "value" like for composite actions, we just register it
 then return it from our code using core.setOutput(...) as seen in the example above
 we can then reach this output value in our workflow using ${{ steps.step_id.outputs.website-url }}
+
