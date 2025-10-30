@@ -788,3 +788,6 @@ in the case of AWS, we still need to set the AWS keys as env variables in the sa
 for python and the boto3 lib specifically, this lib will look for the AWS standard env variables
 on its own
 
+Finally on actions
+------------------
+If your custom Action is stored in a public repository, it can also be published to the GitHub Actions Marketplace as described here: https://docs.github.com/en/actions/creating-actions/publishing-actions-in-github-marketplace#publishing-an-action
