@@ -815,6 +815,10 @@ I can for example use curl and append to it the value of the aws key using the e
 
 how to secure this, in this case, it is recommended to read the title value (or any other value) that commes from outside then store it in a env variable using the github "env" key (IMPORTANT) and not storring it and env variable via the cmd script in "run", then use that env variable in a command, that way it will be treated as a string value and will not affect the shell script
 
+another way to secure this in a script is to read it 1st as such:
+INPUT="${{ inputs.test-tags }}" => we surround the input value by double quotes on its own in the script directly
+it is also best practice when reading the values of any env variables
+
 2) malicious 3rd party actions
 - can read your data
 - communicate with external servers
